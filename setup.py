@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="dynamic-versioning-python",
+    name="dynamic_versioning_python",
     version="0.1.0",
     author="Heliya Hasani",
     author_email="heliyahasani@hotmail.com",
