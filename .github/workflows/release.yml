@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3 # Updated to v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4 # Updated to v4
         with:
           python-version: "3.x"
 
@@ -27,15 +27,8 @@ jobs:
         run: |
           pdm bump --patch  # Change to --minor or --major depending on the release type
           git add pyproject.toml
-          git commit -m "Bump version"
+          git commit -m "Bump version to ${{ github.ref_name }}"
           git push origin main
 
       - name: Build package
         run: pdm build
-
-      # Optionally, you can upload the built package as an artifact
-      - name: Upload package artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: package
-          path: dist/
