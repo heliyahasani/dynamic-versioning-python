@@ -1,6 +1,6 @@
 [project]
 name = "dynamic_versioning_python"
-version = "0.2.2"
+version = "0.2.3"
 description = "Default template for PDM package"
 authors = [
     {name = "Heliya Hasani", email = "heliyahasani@hotmail.com"},
