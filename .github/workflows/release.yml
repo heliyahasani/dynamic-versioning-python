@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: Install PDM
+        run: python -m pip install pdm
+
+      - name: Install dependencies
+        run: pdm install
+
+      - name: Bump version
+        run: |
+          pdm bump --patch  # Change to --minor or --major depending on the release type
+          git add pyproject.toml
+          git commit -m "Bump version"
+          git push origin main
+
+      - name: Build package
+        run: pdm build
+
+      # Optionally, you can upload the built package as an artifact
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: dist/
