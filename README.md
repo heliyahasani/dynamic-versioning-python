@@ -6,8 +6,6 @@ Ilcome to the `dynamic-versioning-python-pdm` repository! This project demonstra
 
 - **Automated Version Bumping**: Automatically increment the version number using Git tags or Git hooks.
 - **PDM Integration**: Use PDM for dependency management, packaging, and publishing to PyPI.
-- **CI/CD Pipeline**: GitHub Actions workflow included for building, versioning, and releasing package automatically.
-- **Pre-commit Hooks**: Ensures that versioning is handled on every commit, keeping project up to date.
 
 ## Getting Started
 
