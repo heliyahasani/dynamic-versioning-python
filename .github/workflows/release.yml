@@ -10,10 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3 # Updated to v3
+      - uses: actions/setup-node@v3 # Set up Node 20 manually
+        with:
+          node-version: "20"
+
+      - uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v4 # Updated to v4
+        uses: actions/setup-python@v4
         with:
           python-version: "3.x"
 
@@ -25,9 +29,9 @@ jobs:
 
       - name: Bump version
         run: |
-          pdm bump --patch  # Change to --minor or --major depending on the release type
+          pdm bump --patch
           git add pyproject.toml
-          git commit -m "Bump version to ${{ github.ref_name }}"
+          git commit -m "Bump version"
           git push origin main
 
       - name: Build package
