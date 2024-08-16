@@ -15,7 +15,7 @@ Ilcome to the `dynamic-versioning-python-pdm` repository! This project demonstra
 
 Before you begin, ensure you have the following installed:
 
-- [Python 3.6+](https://www.python.org/downloads/)
+- [Python 3.8+](https://www.python.org/downloads/)
 - [PDM](https://pdm.fming.dev/latest/)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 

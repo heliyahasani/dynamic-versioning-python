@@ -5,11 +5,13 @@ description = "Default template for PDM package"
 authors = [
     {name = "Heliya Hasani", email = "heliyahasani@hotmail.com"},
 ]
-dependencies = []
+dependencies = [
+    "setuptools>=72.2.0",
+]
 requires-python = "==3.8.*"
 readme = "README.md"
 license = {text = "MIT"}
 
 
 [tool.pdm]
-distribution = false
+distribution = true
