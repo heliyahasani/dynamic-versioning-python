@@ -1,0 +1,58 @@
+name: Python CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+
+      - name: Install pdm
+        run: pip install pdm
+
+      - name: Install dependencies
+        run: pdm install
+
+      - name: Check commit message for version bump
+        id: bump_version
+        run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          echo "Commit message: $COMMIT_MESSAGE"
+          if [[ "$COMMIT_MESSAGE" =~ "[major]" ]]; then
+            echo "::set-output name=bump_type::major"
+          elif [[ "$COMMIT_MESSAGE" =~ "[minor]" ]]; then
+            echo "::set-output name=bump_type::minor"
+          elif [[ "$COMMIT_MESSAGE" =~ "[patch]" ]]; then
+            echo "::set-output name=bump_type::patch"
+          else
+            echo "No version bump keyword found."
+            echo "::set-output name=bump_type::none"
+          fi
+
+      - name: Bump version
+        if: steps.bump_version.outputs.bump_type != 'none'
+        run: |
+          pdm run bump2version --config-file .bumpversion.cfg ${{ steps.bump_version.outputs.bump_type }}
+
+      - name: Run tests
+        run: pdm run python -m unittest discover tests
+
+      - name: Push changes
+        if: steps.bump_version.outputs.bump_type != 'none'
+        run: |
+          git push --follow-tags
+          pdm publish
