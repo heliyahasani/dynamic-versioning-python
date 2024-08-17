@@ -32,11 +32,11 @@ jobs:
         run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=%B)
           echo "Commit message: $COMMIT_MESSAGE"
-          if [[ "$COMMIT_MESSAGE" =~ "[major]" ]]; then
+          if [[ "$COMMIT_MESSAGE" =~ "major" ]]; then
             echo "::set-output name=bump_type::major"
-          elif [[ "$COMMIT_MESSAGE" =~ "[minor]" ]]; then
+          elif [[ "$COMMIT_MESSAGE" =~ "minor" ]]; then
             echo "::set-output name=bump_type::minor"
-          elif [[ "$COMMIT_MESSAGE" =~ "[patch]" ]]; then
+          elif [[ "$COMMIT_MESSAGE" =~ "patch" ]]; then
             echo "::set-output name=bump_type::patch"
           else
             echo "No version bump keyword found."
