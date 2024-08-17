@@ -62,3 +62,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git push --follow-tags
+
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: Deploy to VM
+        run: |
+          sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.VM_IP }} << 'EOF'
+            if [ ! -d "~/dynamic-versioning-python/.git" ]; then
+              git clone https://github.com/heliyahasani/dynamic-versioning-python.git ~/dynamic-versioning-python
+            else
+              cd ~/dynamic-versioning-python
+              git pull origin master
+            fi
+          EOF
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          VM_IP: ${{ secrets.VM_IP }}
