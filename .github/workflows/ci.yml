@@ -27,6 +27,11 @@ jobs:
       - name: Install dependencies
         run: pdm install
 
+      - name: Configure Git for CI
+        run: |
+          git config --local user.name "Heliya Hasani"
+          git config --local user.email "heliyahasani@hotmail.com"
+
       - name: Check commit message for version bump
         id: bump_version
         run: |
@@ -53,6 +58,8 @@ jobs:
 
       - name: Push changes
         if: steps.bump_version.outputs.bump_type != 'none'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git push --follow-tags
           pdm publish
